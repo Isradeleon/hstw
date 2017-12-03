@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use App\Tarjeta;
 use Auth;
 use Validator;
 use Hash;
@@ -26,7 +27,7 @@ class UserController extends Controller
 
 	public function index(Request $request){
 		if (Auth::user()->tipo == 1) {
-			$usuarios = User::where('tipo',2)->get();
+			$usuarios = User::all();
 			return view('users.list',[
 				"usuarios"=>$usuarios
 			]);
@@ -79,7 +80,7 @@ class UserController extends Controller
             $rules=[
             	"nombre_completo"=>"required",
             	"ocupacion"=>"required",
-                "email"=>"required|email|unique:users",
+                "email"=>"required|email|unique:usuarios",
                 "password"=>"required",
                 "password_confirmation"=>"same:password"
             ];

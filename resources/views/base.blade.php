@@ -7,6 +7,7 @@
 	<title>HSTW</title>
 	<link rel="stylesheet" type="text/css" href="/css/bulma.css">
 	<link rel="stylesheet" type="text/css" href="/css/icons/css/font-awesome.min.css">
+    <link rel="icon" href="/default/icon.png">
 	<style type="text/css">
 		.is-fixed{
             position: fixed !important;
@@ -22,9 +23,21 @@
         section.main{
             padding-top:70px;
         }
-        /**{
+        *{
             border-radius: 0 !important;
-        }*/
+        }
+        .column{
+            padding: 20px;
+        }
+        .select, .select>select{
+            width: 100%;
+        }
+        .navbar-item{
+            text-align: center;
+        }
+        .navbar-brand>a:hover, .navbar-brand>a{
+            background-color: white;
+        }
 	</style>
 	@yield('css')
 </head>
@@ -32,7 +45,8 @@
 	<nav class="navbar is-fixed">
         <div class="navbar-brand">
             <a href="/" class="navbar-item">
-                <span class="title is-6">HSTW</span>
+                <img src="/default/logo.png">
+                <!-- <span class="title is-6">HSTW</span> -->
             </a>
             <div class="button navbar-burger">
                 <span></span>
@@ -43,7 +57,9 @@
         <div class="navbar-menu">
             <div class="navbar-start">
                 @if(Auth::check() and Auth::user()->tipo == 1)
-            	   <a href="/register" class="navbar-item">Registrar</a>
+                <a href="/register" class="navbar-item">
+                    <span class="icon"><i class="fa fa-users"></i></span> Registrar usuarios
+                </a>
                 @endif
             </div>
             <div class="navbar-end">
@@ -62,7 +78,9 @@
                             <a href="/logout" class="navbar-item">Logout</a>
                         </div>
                     </div> -->
-                    <a href="/logout" class="navbar-item"><i class="fa fa-sign-out"></i> Salir</a>
+                    <a href="/logout" class="navbar-item">
+                        <span class="icon"><i class="fa fa-sign-out"></i></span> Salir
+                    </a>
                 @endif
             </div>
         </div>

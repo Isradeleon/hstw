@@ -16,7 +16,7 @@ Route::get('/generate_admin', 'UserController@admin');
 Route::middleware(['auth'])->group(function(){
 	Route::get('/', 'UserController@index');
 	Route::match(['get','post'],'/register', 'UserController@register');
-	Route::post('/logout', 'UserController@logout');
+	Route::get('/logout', 'UserController@logout');
 	Route::post('/question', 'UserController@question');
 });
 
