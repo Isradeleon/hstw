@@ -97,9 +97,16 @@ class UserController extends Controller
             $user->nombre_completo = $request['nombre_completo'];
             $user->ocupacion = $request['ocupacion'];
             $user->email = $request['email'];
-            $user->tipo = 1;
+            $user->tipo = 2;
             $user->password = Hash::make($request['password']);
             $user->save();
+
+            // $card = new Tarjeta;
+            // switch($request['tipo_tarjeta']){
+            //     case 1:
+
+            //     break;
+            // }
 
             return redirect('/');
     	}

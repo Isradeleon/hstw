@@ -72,7 +72,7 @@
 			</div>
 			<div class="column is-one-third">
 				<div class="field">
-					<label class="label" for="marca_tarjeta">Tarjeta</label>
+					<label class="label" for="marca_tarjeta">Tipo</label>
 					<div class="select">
 						<select name="marca_tarjeta">
 							<option value="1">VISA</option>
@@ -82,11 +82,12 @@
 				</div>
 
 				<div class="field">
-					<label class="label" for="tipo_tarjeta">Tipo</label>
+					<label class="label" for="tipo_tarjeta">Tarjetas</label>
 					<div class="select">
 						<select name="tipo_tarjeta">
-							<option value="1">Crédito</option>
-							<option value="2">Débito</option>
+							<option value="1">Tarjeta de crédito</option>
+							<option value="2">Tarjeta de débito</option>
+							<option value="3">Débito y Crédito</option>
 						</select>
 					</div>
 				</div>
@@ -108,10 +109,10 @@
 $(function(){
 	$('select[name="tipo_tarjeta"]').on('change',function(){
 		console.log($(this).val())
-		if ($(this).val() == 2)
-			$('#saldo_field').slideDown()
-		else
+		if ($(this).val() == 1)
 			$('#saldo_field').hide()
+		else
+			$('#saldo_field').slideDown()
 	})
 })
 </script>
