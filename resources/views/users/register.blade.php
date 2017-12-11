@@ -71,15 +71,38 @@
 
 			</div>
 			<div class="column is-one-third">
-				<div class="field">
-					<label class="label" for="marca_tarjeta">Tipo</label>
-					<div class="select">
-						<select name="marca_tarjeta">
-							<option value="1">VISA</option>
-							<option value="2">Master Card</option>
-						</select>
+				<section class="field" id="single_card">
+					<div class="field">
+						<label class="label" for="marca_tarjeta">Tipo</label>
+						<div class="select">
+							<select name="marca_tarjeta">
+								<option value="1">VISA</option>
+								<option value="2">Master Card</option>
+							</select>
+						</div>
 					</div>
-				</div>
+				</section>
+
+				<section class="field" id="multiple_cards" style="display: none;">
+					<div class="field">
+						<label class="label" for="marca_tarjeta">Débito</label>
+						<div class="select">
+							<select name="marca_tarjeta_debito">
+								<option value="1">VISA</option>
+								<option value="2">Master Card</option>
+							</select>
+						</div>
+					</div>
+					<div class="field">
+						<label class="label" for="marca_tarjeta_credito">Crédito</label>
+						<div class="select">
+							<select name="marca_tarjeta">
+								<option value="1">VISA</option>
+								<option value="2">Master Card</option>
+							</select>
+						</div>
+					</div>
+				</section>
 
 				<div class="field">
 					<label class="label" for="tipo_tarjeta">Tarjetas</label>
@@ -109,10 +132,20 @@
 $(function(){
 	$('select[name="tipo_tarjeta"]').on('change',function(){
 		console.log($(this).val())
-		if ($(this).val() == 1)
+		if ($(this).val() == 1){
 			$('#saldo_field').hide()
-		else
+			$('#multiple_cards').hide()
+			$('#single_card').slideDown()
+		}else{
 			$('#saldo_field').slideDown()
+			if ($(this).val() == 3) {
+				$('#multiple_cards').slideDown()
+				$('#single_card').hide()
+			}else{
+				$('#multiple_cards').hide()
+				$('#single_card').slideDown()
+			}
+		}
 	})
 })
 </script>
