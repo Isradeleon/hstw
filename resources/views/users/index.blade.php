@@ -31,7 +31,7 @@
 						@endif
 							<a>
 								<span class="icon is-small">
-									<i class="fa {{ $card->tipo == 1 ? 'fa-credit-card' : 'fa-credit-card-alt' }}"></i> 
+									<i class="fa {{ $card->tipo == 1 ? 'fa-credit-card' : 'fa-bank' }}"></i> 
 								</span>
 								<span>	
 									{{ $card->tipo == 1 ? 'Crédito' : 'Débito' }}
