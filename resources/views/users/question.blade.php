@@ -9,7 +9,7 @@
 			{{csrf_field()}}
 			<input type="hidden" name="answer">
 			<input type="hidden" name="pregunta" value="{{$question}}">
-			<button data-action="1" class="button is-success">Es mi pregunta</button>
+			<button data-action="1" class="button is-success">Iniciar sesión</button>
 			<button data-action="0" class="button is-danger">No es mi pregunta</button>
 		</form>
 	</div>

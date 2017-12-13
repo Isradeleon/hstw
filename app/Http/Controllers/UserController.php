@@ -40,7 +40,7 @@ class UserController extends Controller
                     "Me gusta mucho el jugo?"
                 ];
 
-                $lets_see = $request->session()->has('once_question') ? 1 : rand(0,1) == 1;
+                $lets_see = rand(0,1) == 1;
                 if ($lets_see)
                     $question = Auth::user()->pregunta;
                 else
@@ -56,19 +56,14 @@ class UserController extends Controller
 
 	public function question(Request $request){
 		if (Auth::user()->tipo != 1) {
-            if ($request['answer'] && Auth::user()->pregunta == $request['pregunta'] ||
-                !$request['answer'] && Auth::user()->pregunta != $request['pregunta']
-            ) {
-                if (!$request->session()->has('once_question')) {
-                    $request->session()->put('once_question', 1);
-                    return redirect('/');
-                }
-                $request->session()->put('question',1);
-                return redirect('/');
-            }else
-                return $this->logout($request);
-		}
-		return ['results'=>false];
+            if ($request['answer']) {
+                if (Auth::user()->pregunta == $request['pregunta'])
+                    $request->session()->put('question',1);
+                else
+                    return $this->logout($request);
+            }
+        }
+        return redirect('/');
 	}
 
     public function login(Request $request){
@@ -201,9 +196,6 @@ class UserController extends Controller
     public function logout(Request $request) {
     	if ($request->session()->has('question'))
     		$request->session()->forget('question');
-        
-        if ($request->session()->has('once_question'))
-            $request->session()->forget('once_question');
 
        	Auth::logout();
         return redirect('/');
