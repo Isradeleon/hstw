@@ -50,7 +50,6 @@ class UserController extends Controller
                     "question" => $question
                 ]);
             }
-            
 			return view('users.index');
 		}
 	}
