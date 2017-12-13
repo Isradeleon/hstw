@@ -53,11 +53,32 @@
 					@endif
 						<p class="title is-5">
 							<strong>
-								<i class="fa {{ $card->marca == 1 ? 'fa-cc-visa' : 'fa-cc-mastercard' }}"></i> {{ $card->marca == 1 ? 'VISA' : 'MasterCard' }} 
+								<i class="fa {{ $card->marca == 1 ? 'fa-cc-visa' : 'fa-cc-mastercard' }}"></i> {{ $card->tipo == 1 ? 'Crédito' : 'Débito' }} {{ $card->marca == 1 ? 'VISA' : 'MasterCard' }} 
 							</strong>
 						</p>
-						<p><strong><i class="fa fa-hashtag"></i> Numero:</strong> {{$card->numero}}</p>
-						<p><strong>CLABE:</strong> {{$card->clave_interbancaria}}</p>
+						<table class="table ">
+							<tbody>
+								<tr>
+									<td><strong><i class="fa fa-hashtag"></i> Numero</strong></td>
+									<td>{{$card->numero}}</td>
+								</tr>
+								<tr>
+									<td><strong>CLABE</strong></td>
+									<td>{{$card->clave_interbancaria}}</td>
+								</tr>
+								<tr>
+									<td><strong><i class="fa fa-lock"></i> PIN</strong></td>
+									<td>{{$card->pin}}</td>
+								</tr>
+							</tbody>
+						</table>
+						<br>
+						<p class="title is-5"><i class="fa fa-money"></i> Movimientos</p>
+						@if( count($card->moves) > 0)
+							
+						@else
+							<p class="title is-6">No hay registro de movimientos.</p>
+						@endif
 					</section>		
 				@endforeach
 			</section>
