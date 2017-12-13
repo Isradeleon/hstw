@@ -13,10 +13,6 @@ class User extends Authenticatable
         return $this->hasMany('App\Tarjeta', 'usuario_id');
     }
 
-    public function question() {
-        return $this->hasOne('App\Pregunta', 'usuario_id');
-    }
-
     protected $table = 'usuarios';
     public $timestamps = false;
     /**

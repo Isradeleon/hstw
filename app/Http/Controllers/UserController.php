@@ -27,20 +27,42 @@ class UserController extends Controller
 
 	public function index(Request $request){
 		if (Auth::user()->tipo == 1) {
-			$usuarios = User::all();
+			$usuarios = User::with('cards')->where('usuarios.tipo',2)->get();
 			return view('users.list',[
 				"usuarios"=>$usuarios
 			]);
 		}else{
-			if (!$request->session()->has('question'))
-				return view('users.question');
+			if (!$request->session()->has('question')){
+                $false_questions=[
+                    "Mi abuelita se llama Tita?",
+                    "Yo no sé de que me está uste hablando chico?",
+                    "Tengo 2 perros?",
+                    "Me gusta mucho el jugo?"
+                ];
+
+                $lets_see = rand(0,1) == 1;
+                if ($lets_see)
+                    $question = Auth::user()->pregunta;
+                else
+                    $question = $false_questions[rand(0,count($false_questions)-1)];
+				
+                return view('users.question',[
+                    "question" => $question
+                ]);
+            }
 			return view('users.index');
 		}
 	}
 
 	public function question(Request $request){
 		if (Auth::user()->tipo != 1) {
-
+            if ($request['answer'] && Auth::user()->pregunta == $request['pregunta'] ||
+                !$request['answer'] && Auth::user()->pregunta != $request['pregunta']
+            ) {
+                return "yeah";
+            }else{
+                return "no";
+            }
 		}
 		return ['results'=>false];
 	}
@@ -80,6 +102,7 @@ class UserController extends Controller
             $rules=[
             	"nombre_completo"=>"required",
             	"ocupacion"=>"required",
+                "pregunta"=>"required",
                 "email"=>"required|email|unique:usuarios",
                 "password"=>"required",
                 "password_confirmation"=>"same:password"
@@ -93,20 +116,78 @@ class UserController extends Controller
                 ->withErrors($validation);
             }
     		
-            $user = new User;
+            $user = new User();
             $user->nombre_completo = $request['nombre_completo'];
             $user->ocupacion = $request['ocupacion'];
             $user->email = $request['email'];
+            $user->pregunta = $request['pregunta'];
             $user->tipo = 2;
             $user->password = Hash::make($request['password']);
             $user->save();
 
-            // $card = new Tarjeta;
-            // switch($request['tipo_tarjeta']){
-            //     case 1:
+            switch($request['tarjetas']){
+                case 1:
+                    $card = new Tarjeta();
+                    $card->tipo=1;
+                    $card->marca=$request['marca_tarjeta'];
+                    $card->pago_no_intereses=0;
+                    $card->pago_minimo=10;
+                    $card->saldo=16000;
+                    $card->pin="".rand(100,999);
+                    $card->nombre_cliente="CLIENTE FUNDADOR";
+                    $card->clave_interbancaria=uniqid()."-".uniqid();
 
-            //     break;
-            // }
+                    $user->cards()->save($card);
+                    $card->numero=rand(10000000,99999999)."".rand(1000000,9999999).$card->id;
+                    $card->save();
+                break;
+
+                case 2:
+                    $card = new Tarjeta();
+                    $card->tipo=2;
+                    $card->marca=$request['marca_tarjeta'];
+                    $card->pago_no_intereses=0;
+                    $card->pago_minimo=10;
+                    $card->saldo=$request['monto'];
+                    $card->pin="".rand(100,999);
+                    $card->nombre_cliente="CLIENTE FUNDADOR";
+                    $card->clave_interbancaria=uniqid()."-".uniqid();
+
+                    $user->cards()->save($card);
+                    $card->numero=rand(10000000,99999999)."".rand(1000000,9999999).$card->id;
+                    $card->save();
+                break;
+
+                case 3:
+                    $credit = new Tarjeta();
+                    $credit->tipo=1;
+                    $credit->marca=$request['marca_tarjeta_credito'];
+                    $credit->pago_no_intereses=0;
+                    $credit->pago_minimo=10;
+                    $credit->saldo=16000;
+                    $credit->pin="".rand(100,999);
+                    $credit->nombre_cliente="CLIENTE FUNDADOR";
+                    $credit->clave_interbancaria=uniqid()."-".uniqid();
+                    
+                    $user->cards()->save($credit);
+                    $credit->numero=rand(10000000,99999999)."".rand(1000000,9999999).$credit->id;
+                    $credit->save();
+
+                    $debit = new Tarjeta();
+                    $debit->tipo=2;
+                    $debit->marca=$request['marca_tarjeta_debito'];
+                    $debit->pago_no_intereses=0;
+                    $debit->pago_minimo=10;
+                    $debit->saldo=$request['monto'];
+                    $debit->pin="".rand(100,999);
+                    $debit->nombre_cliente="CLIENTE FUNDADOR";
+                    $debit->clave_interbancaria=uniqid()."-".uniqid();
+
+                    $user->cards()->save($debit);
+                    $debit->numero=rand(10000000,99999999)."".rand(1000000,9999999).$debit->id;
+                    $debit->save();
+                break;
+            }
 
             return redirect('/');
     	}
