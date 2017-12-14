@@ -83,7 +83,7 @@
 							</table>
 						</section>
 						<br>
-						<p class="title is-5">Movimientos</p>
+						<p class="title is-5"><i class="fa fa-line-chart"></i> Movimientos</p>
 						@if( count($card->moves) > 0)
 							<p>Pago sin intereses: ${{$data_payments[$card['numero']]}}</p>
 							<p>Pago mínimo: %{{$card->pago_minimo}}</p><br>
