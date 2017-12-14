@@ -4,6 +4,7 @@
 <section class="container">
 	<h1 class="title is-1">Lista de usuarios de HSTW</h1>
 	@if(count($usuarios) > 0)
+	<section class="x-responsive">
 		<table class="table is-narrow is-striped is-fullwidth">
 			<thead>
 				<tr>
@@ -43,6 +44,7 @@
 				@endforeach
 			</tbody>
 		</table>
+	</section>
 	@else
 		<h3 class="title is-3"><i>No hay usuarios registrados.</i></h3>
 	@endif

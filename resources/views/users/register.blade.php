@@ -70,7 +70,7 @@
 				@endif
 
 				<div class="field">
-					<label for="pregunta" class="label">Pregunta:</label>
+					<label for="pregunta" class="label">Pregunta de seguridad</label>
 					<input autofocus value="{{ old('pregunta') }}" name="pregunta" type="text" class="input">
 				</div>
 				@if($errors->has('pregunta'))

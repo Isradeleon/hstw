@@ -56,53 +56,59 @@
 								<i class="fa {{ $card->marca == 1 ? 'fa-cc-visa' : 'fa-cc-mastercard' }}"></i> {{ $card->tipo == 1 ? 'Crédito' : 'Débito' }} {{ $card->marca == 1 ? 'VISA' : 'MasterCard' }} 
 							</strong>
 						</p>
-						<table class="table ">
-							<tbody>
-								<tr>
-									<td><strong><i class="fa fa-hashtag"></i> Numero</strong></td>
-									<td>{{$card->numero}}</td>
-								</tr>
-								<tr>
-									<td><strong>CLABE</strong></td>
-									<td>{{$card->clave_interbancaria}}</td>
-								</tr>
-								<tr>
-									<td><strong><i class="fa fa-lock"></i> PIN</strong></td>
-									<td>{{$card->pin}}</td>
-								</tr>
-								<tr>
-									<td><strong><i class="fa fa-calendar-check-o"></i> Expedición</strong></td>
-									<td>{{$card->expedicion}}</td>
-								</tr>
-								<tr>
-									<td><strong><i class="fa fa-money"></i> Saldo actual</strong></td>
-									<td>$ {{$card->saldo}} MXN</td>
-								</tr>
-							</tbody>
-						</table>
+						<section class="x-responsive">
+							<table class="table ">
+								<tbody>
+									<tr>
+										<td><strong><i class="fa fa-hashtag"></i> Numero</strong></td>
+										<td>{{$card->numero}}</td>
+									</tr>
+									<tr>
+										<td><strong>CLABE</strong></td>
+										<td>{{$card->clave_interbancaria}}</td>
+									</tr>
+									<tr>
+										<td><strong><i class="fa fa-lock"></i> PIN</strong></td>
+										<td>{{$card->pin}}</td>
+									</tr>
+									<tr>
+										<td><strong><i class="fa fa-calendar-check-o"></i> Expedición</strong></td>
+										<td>{{$card->expedicion}}</td>
+									</tr>
+									<tr>
+										<td><strong><i class="fa fa-money"></i> Saldo actual</strong></td>
+										<td>$ {{$card->saldo}} MXN</td>
+									</tr>
+								</tbody>
+							</table>
+						</section>
 						<br>
 						<p class="title is-5">Movimientos</p>
 						@if( count($card->moves) > 0)
 							<p>Pago sin intereses: ${{$data_payments[$card['numero']]}}</p>
 							<p>Pago mínimo: %{{$card->pago_minimo}}</p><br>
-							<table class="table is-fullwidth is-bordered">
-								<thead>
-									<tr>
-										<th>Compra</th>
-										<th>Costo</th>
-										<th>Fecha límite de pago</th>
-									</tr>
-								</thead>
-								<tbody>
-									@foreach($card->moves as $move)
-									<tr>
-										<td>{{$move->producto}}</td>
-										<td>{{$move->precio}}</td>
-										<td>{{$move->fecha_limite}}</td>
-									</tr>
-									@endforeach
-								</tbody>
-							</table>
+							<section class="x-responsive">
+								<table class="table is-fullwidth is-bordered">
+									<thead>
+										<tr>
+											<th>Compra</th>
+											<th>Costo</th>
+											<th>Fecha límite</th>
+											<th>Realizado</th>
+										</tr>
+									</thead>
+									<tbody>
+										@foreach($card->moves as $move)
+										<tr>
+											<td>{{$move->producto}}</td>
+											<td>{{$move->precio}}</td>
+											<td>{{$move->fecha_limite}}</td>
+											<td>{{$move->created_at}}</td>
+										</tr>
+										@endforeach
+									</tbody>
+								</table>
+							</section>
 						@else
 							<p class="title is-6">No hay registro de movimientos.</p>
 						@endif

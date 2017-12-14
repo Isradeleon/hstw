@@ -38,6 +38,9 @@
         .navbar-brand>a:hover, .navbar-brand>a{
             background-color: white;
         }
+        .x-responsive{
+            overflow-x: auto;
+        }
 	</style>
 	@yield('css')
 </head>
@@ -48,11 +51,13 @@
                 <img src="/default/logo.png">
                 <!-- <span class="title is-6">HSTW</span> -->
             </a>
-            <div class="button navbar-burger">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
+            @if(Auth::check())
+                <div class="button navbar-burger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            @endif
         </div>
         <div class="navbar-menu">
             <div class="navbar-start">
@@ -64,20 +69,6 @@
             </div>
             <div class="navbar-end">
                 @if(Auth::check())
-                    <!-- <div class="navbar-item has-dropdown is-hoverable">
-                        <a class="navbar-link">
-                            <span class="icon">
-                                <img src="/default/user.png">
-                            </span>
-                        </a>
-                        <div class="navbar-dropdown is-right">
-                            <hr class="navbar-divider">
-                            <a class="navbar-item">
-                                Components
-                            </a>
-                            <a href="/logout" class="navbar-item">Logout</a>
-                        </div>
-                    </div> -->
                     <a href="/logout" class="navbar-item">
                         <span class="icon"><i class="fa fa-sign-out"></i></span> Salir
                     </a>
