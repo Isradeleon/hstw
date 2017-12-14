@@ -74,12 +74,35 @@
 									<td><strong><i class="fa fa-calendar-check-o"></i> Expedición</strong></td>
 									<td>{{$card->expedicion}}</td>
 								</tr>
+								<tr>
+									<td><strong><i class="fa fa-money"></i> Saldo actual</strong></td>
+									<td>$ {{$card->saldo}} MXN</td>
+								</tr>
 							</tbody>
 						</table>
 						<br>
-						<p class="title is-5"><i class="fa fa-money"></i> Movimientos</p>
+						<p class="title is-5">Movimientos</p>
 						@if( count($card->moves) > 0)
-							<p class="title is-6">LISTA.</p>
+							<p>Pago sin intereses: ${{$data_payments[$card['numero']]}}</p>
+							<p>Pago mínimo: %{{$card->pago_minimo}}</p><br>
+							<table class="table is-fullwidth is-bordered">
+								<thead>
+									<tr>
+										<th>Compra</th>
+										<th>Costo</th>
+										<th>Fecha límite de pago</th>
+									</tr>
+								</thead>
+								<tbody>
+									@foreach($card->moves as $move)
+									<tr>
+										<td>{{$move->producto}}</td>
+										<td>{{$move->precio}}</td>
+										<td>{{$move->fecha_limite}}</td>
+									</tr>
+									@endforeach
+								</tbody>
+							</table>
 						@else
 							<p class="title is-6">No hay registro de movimientos.</p>
 						@endif

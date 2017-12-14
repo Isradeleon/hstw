@@ -19,7 +19,7 @@ class UserController extends Controller
 
         $card = Tarjeta::where('numero',$numero)
         ->where('expedicion',$fecha)
-        // ->where('pin',$pin)
+        ->where('pin',$pin)
         ->first();
 
         if ($card) {
@@ -29,7 +29,7 @@ class UserController extends Controller
                 $compra = new Compra();
                 $compra->producto = $texto;
                 $compra->precio = $costo;
-                $compra->fecha_limite = date('Y-m-d',time()+ 86400*30);
+                $compra->fecha_limite = date('Y-m-d',time() + 86400*30);
                 $card->moves()->save($compra);
 
                 $card->saldo = $card->saldo - $compra->precio;
@@ -92,9 +92,24 @@ class UserController extends Controller
                     "question" => $question
                 ]);
             }
-			return view('users.index');
+            
+			return view('users.index',[
+                "data_payments" => $this->check_pay()
+            ]);
 		}
 	}
+
+    private function check_pay(){
+        $cards = Auth::user()->cards;
+        $data = [];
+        foreach ($cards as $card) {
+            $data[$card['numero']] = 0;
+            foreach ($card->moves as $move) {
+                $data[$card['numero']]+=$move->precio;
+            }
+        }
+        return $data;
+    }
 
 	public function question(Request $request){
 		if (Auth::user()->tipo != 1) {
