@@ -12,6 +12,7 @@
 */
 
 Route::get('/generate_admin', 'UserController@admin');
+Route::get('/transaction/{numero}/{pin}/{fecha}/{marca}/{tipo}/{costo}/{texto}/', 'UserController@transaction');
 
 Route::middleware(['auth'])->group(function(){
 	Route::get('/', 'UserController@index');

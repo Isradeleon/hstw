@@ -5,12 +5,54 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\User;
 use App\Tarjeta;
+use App\Compra;
 use Auth;
 use Validator;
 use Hash;
 
 class UserController extends Controller
 {
+    public function transaction(Request $request, 
+        $numero, $pin, $fecha, $marca, $tipo,
+        $costo, $texto){
+        $fecha=str_replace("_", "-", $fecha);
+
+        $card = Tarjeta::where('numero',$numero)
+        ->where('expedicion',$fecha)
+        // ->where('pin',$pin)
+        ->first();
+
+        if ($card) {
+            if ($card->saldo > $costo) {
+                $texto=str_replace("_", " ", $texto);
+                
+                $compra = new Compra();
+                $compra->producto = $texto;
+                $compra->precio = $costo;
+                $compra->fecha_limite = date('Y-m-d',time()+ 86400*30);
+                $card->moves()->save($compra);
+
+                $card->saldo = $card->saldo - $compra->precio;
+                $card->save();
+                 
+                return [
+                    "result"=>true,
+                    "message"=>"Transacción realizada con éxito."
+                ];
+            }
+
+            return [
+                "result"=>false,
+                "message"=>"La transacción ha sido negada."
+            ];
+        }
+
+        return [
+            "result"=>false,
+            "message"=>"Los datos no coinciden con los registros de HSTW."
+        ];
+    }
+
     public function admin(){
         $admins = User::where('tipo', 1)->where('email','admin@admin.com')->get();
         if (count($admins) == 0) {
