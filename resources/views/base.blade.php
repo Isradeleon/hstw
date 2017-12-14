@@ -41,6 +41,14 @@
         .x-responsive{
             overflow-x: auto;
         }
+        html{
+            overflow-y: auto;
+        }
+        .login-form{
+            /*border: 1px #eee solid;*/
+            padding: 25px 20px;
+            margin:0px;
+        }
 	</style>
 	@yield('css')
 </head>
