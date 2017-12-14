@@ -47,12 +47,8 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-        if($exception instanceof NotFoundHttpException) {
+        if($exception instanceof NotFoundHttpException || $exception instanceof MethodNotAllowedHttpException) {
             return response()->view('errors.404');
-        }
-
-        if($exception instanceof MethodNotAllowedHttpException) {
-            return redirect('/');
         }
 
         return parent::render($request, $exception);
