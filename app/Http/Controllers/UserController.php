@@ -130,7 +130,13 @@ class UserController extends Controller
                 "password"=>"required"
             ];
 
-            $validation=Validator::make($request->all(),$rules);
+            $trad=[
+                'email.required' => 'Indique su email.',
+                'email.email' => 'Indique un email válido.',
+                'password.required'  => 'Indique su password.'
+            ];
+
+            $validation=Validator::make($request->all(),$rules,$trad);
 
             if ($validation->fails()) {
                 return back()
@@ -164,7 +170,18 @@ class UserController extends Controller
                 "password_confirmation"=>"same:password"
             ];
 
-            $validation=Validator::make($request->all(),$rules);
+            $trad=[
+                'nombre_completo.required' => 'Indique el nombre completo.',
+                'ocupacion.required' => 'Indique la ocupación.',
+                'pregunta.required' => 'Indique la pregunta.',
+                'email.required' => 'Indique el email.',
+                'email.email' => 'Indique un email válido.',
+                'email.unique' => 'Email ya registrado.',
+                'password.required'  => 'Indique el password.',
+                'password_confirmation.same'  => 'Los password deben coincidir.'
+            ];
+
+            $validation=Validator::make($request->all(),$rules,$trad);
 
             if ($validation->fails()) {
                 return back()
