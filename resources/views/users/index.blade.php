@@ -70,12 +70,16 @@
 									<td><strong><i class="fa fa-lock"></i> PIN</strong></td>
 									<td>{{$card->pin}}</td>
 								</tr>
+								<tr>
+									<td><strong><i class="fa fa-calendar-check-o"></i> Expedición</strong></td>
+									<td>{{$card->expedicion}}</td>
+								</tr>
 							</tbody>
 						</table>
 						<br>
 						<p class="title is-5"><i class="fa fa-money"></i> Movimientos</p>
 						@if( count($card->moves) > 0)
-							
+							<p class="title is-6">LISTA.</p>
 						@else
 							<p class="title is-6">No hay registro de movimientos.</p>
 						@endif
@@ -87,15 +91,17 @@
 </section>
 @endsection
 
-@section('js')
-<script type="text/javascript">
-$(function(){
-	$('.tabs>ul>li').on('click',function(){
-		$('li.is-active').removeClass('is-active')
-		$(this).addClass('is-active')
-		$('.dashboard>section').hide()
-		$('#'+$(this).data('section')).slideDown()
-	})
-})
-</script>
-@endsection
+@if(count(Auth::user()->cards) > 1)
+	@section('js')
+	<script type="text/javascript">
+		$(function(){
+			$('.tabs>ul>li').on('click',function(){
+				$('li.is-active').removeClass('is-active')
+				$(this).addClass('is-active')
+				$('.dashboard>section').hide()
+				$('#'+$(this).data('section')).slideDown()
+			})
+		})
+	</script>
+	@endsection
+@endif

@@ -124,6 +124,9 @@ class UserController extends Controller
             $user->password = Hash::make($request['password']);
             $user->save();
 
+            date_default_timezone_set('America/Monterrey');
+            $now = date('Y-m-d', time());
+
             switch($request['tarjetas']){
                 case 1:
                     $card = new Tarjeta();
@@ -135,10 +138,11 @@ class UserController extends Controller
                     $card->pin="".rand(100,999);
                     $card->nombre_cliente="CLIENTE FUNDADOR";
                     $card->clave_interbancaria=uniqid()."-".uniqid();
+                    $card->numero=rand(10000000,99999999)."".rand(10000000,99999999);
+
+                    $card->expedicion = $now;
 
                     $user->cards()->save($card);
-                    $card->numero=rand(10000000,99999999)."".rand(1000000,9999999).$card->id;
-                    $card->save();
                 break;
 
                 case 2:
@@ -151,10 +155,11 @@ class UserController extends Controller
                     $card->pin="".rand(100,999);
                     $card->nombre_cliente="CLIENTE FUNDADOR";
                     $card->clave_interbancaria=uniqid()."-".uniqid();
+                    $card->numero=rand(10000000,99999999)."".rand(10000000,99999999);
+
+                    $card->expedicion = $now;
 
                     $user->cards()->save($card);
-                    $card->numero=rand(10000000,99999999)."".rand(1000000,9999999).$card->id;
-                    $card->save();
                 break;
 
                 case 3:
@@ -167,11 +172,12 @@ class UserController extends Controller
                     $credit->pin="".rand(100,999);
                     $credit->nombre_cliente="CLIENTE FUNDADOR";
                     $credit->clave_interbancaria=uniqid()."-".uniqid();
+                    $credit->numero=rand(10000000,99999999)."".rand(10000000,99999999);
+
+                    $credit->expedicion = $now;
                     
                     $user->cards()->save($credit);
-                    $credit->numero=rand(10000000,99999999)."".rand(1000000,9999999).$credit->id;
-                    $credit->save();
-
+                    
                     $debit = new Tarjeta();
                     $debit->tipo=2;
                     $debit->marca=$request['marca_tarjeta_debito'];
@@ -181,10 +187,11 @@ class UserController extends Controller
                     $debit->pin="".rand(100,999);
                     $debit->nombre_cliente="CLIENTE FUNDADOR";
                     $debit->clave_interbancaria=uniqid()."-".uniqid();
+                    $debit->numero=rand(10000000,99999999)."".rand(10000000,99999999);
+
+                    $debit->expedicion = $now;
 
                     $user->cards()->save($debit);
-                    $debit->numero=rand(10000000,99999999)."".rand(1000000,9999999).$debit->id;
-                    $debit->save();
                 break;
             }
 
